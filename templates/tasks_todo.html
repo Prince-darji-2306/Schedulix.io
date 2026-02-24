@@ -47,6 +47,7 @@
             <a href="/dashboard">Dashboard</a>
             <a href="/tasks">Tasks</a>
             <a href="/routine">Daily Routine</a>
+            <a href="/notifications">Notifications</a>
             <a href="/login">Logout</a>
         </div>
     </nav>
@@ -84,6 +85,9 @@
             <h2 id="modalTitle" style="margin-bottom: 1.5rem; text-align: left;">Task Plan</h2>
             <div id="planBody" class="plan-body">
                 <!-- AI Plan will be injected here -->
+            </div>
+            <div class="plan-footer">
+                <button id="approveBtn" class="approve-btn" onclick="window.approveCurrentPlan()">Approve Plan</button>
             </div>
         </div>
     </div>

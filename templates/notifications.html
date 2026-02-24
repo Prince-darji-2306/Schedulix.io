@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications | Schedulix.io</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <style>
+        .notif-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+        .notif-item {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .notif-item.unread {
+            border-left: 5px solid var(--primary);
+        }
+        .notif-time {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+        .notif-message {
+            font-size: 1rem;
+        }
+        .mark-read {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            color: var(--primary);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body style="display: block;">
+    <nav class="navbar">
+        <div class="nav-logo">Schedulix.io</div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/tasks">Tasks</a>
+            <a href="/routine">Daily Routine</a>
+            <a href="/notifications">Notifications</a>
+            <a href="/login">Logout</a>
+        </div>
+    </nav>
+
+    <div class="dashboard-container" style="margin: 0 auto; padding-top: 7rem;">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <h1>Notifications</h1>
+            <p class="subtitle">Stay updated with your task plans and system alerts.</p>
+        </div>
+
+        <div id="notif-list" class="notif-container">
+            <!-- Notifications will be injected here -->
+        </div>
+    </div>
+
+    <script src="/static/js/notifications.js"></script>
+</body>
+</html>
