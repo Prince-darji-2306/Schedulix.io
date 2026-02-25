@@ -21,18 +21,21 @@ document.addEventListener('DOMContentLoaded', async () => {
                 itemDiv.className = 'routine-item';
                 itemDiv.innerHTML = `
                     <div class="check-container">
-                        <input type="checkbox" class="custom-checkbox" id="check-${index}" onchange="toggleComplete(this)">
+                        <input type="checkbox" class="custom-checkbox" id="check-${item.id}" 
+                            ${item.is_completed ? 'checked' : ''} 
+                            onchange="toggleSubtask(${item.id}, this)">
                     </div>
                     <div class="routine-content">
-                        <span class="time-badge">${item.time}</span>
-                        <div class="routine-title">${item.task}</div>
+                        <span class="time-badge">${item.time_to}</span>
+                        <div class="routine-title">${item.subtask} <small style="color:var(--text-muted); font-weight:400;">(${item.task_title})</small></div>
                         <div class="routine-desc">${item.description}</div>
                     </div>
                 `;
+                if (item.is_completed) itemDiv.classList.add('completed');
                 routineList.appendChild(itemDiv);
             });
         } else {
-            routineList.innerHTML = `<div id="empty-msg">${data.message || 'No tasks found for today. Enjoy your day!'}</div>`;
+            routineList.innerHTML = `<div id="empty-msg">${data.message || 'No approved routines for today. Go to Tasks and approve an AI plan!'}</div>`;
         }
     } catch (error) {
         console.error('Routine Error:', error);
@@ -40,11 +43,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-function toggleComplete(checkbox) {
+async function toggleSubtask(subtaskId, checkbox) {
+    const token = localStorage.getItem('token');
     const item = checkbox.closest('.routine-item');
-    if (checkbox.checked) {
+    const is_completed = checkbox.checked;
+
+    if (is_completed) {
         item.classList.add('completed');
     } else {
         item.classList.remove('completed');
+    }
+
+    try {
+        await fetch(`/api/subtasks/${subtaskId}/toggle`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ is_completed })
+        });
+    } catch (error) {
+        console.error('Toggle Error:', error);
     }
 }
