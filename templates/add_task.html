@@ -23,31 +23,10 @@
         </div>
     </nav>
 
-    <div id="spinner"
-        style="display:none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(255,255,255,0.8); z-index: 9999; justify-content: center; align-items: center; flex-direction: column;">
+    <div id="spinner">
         <div class="loader"></div>
-        <p style="margin-top: 1rem; font-weight: 700; color: var(--primary);">Generating AI Plan...</p>
+        <p>Generating AI Plan...</p>
     </div>
-    <style>
-        .loader {
-            border: 8px solid #f3f3f3;
-            border-top: 8px solid var(--primary);
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 2s linear infinite;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
 
     <div class="glass-card" style="margin-top: 5rem;">
         <h1>Add New Task</h1>
@@ -68,8 +47,7 @@
             </div>
             <div class="form-group">
                 <label for="status">Initial Status</label>
-                <select id="status" name="status"
-                    style="width: 100%; padding: 1rem; border-radius: 14px; border: 1px solid var(--glass-border); background: #fff;">
+                <select id="status" name="status">
                     <option value="Pending">Pending</option>
                     <option value="In Progress">In Progress</option>
                     <option value="Completed">Completed</option>
