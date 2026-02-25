@@ -24,7 +24,7 @@
     </nav>
 
     <div class="dashboard-container" style="margin: 0 auto;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="overview">
             <div>
                 <h1>Dashboard Overview</h1>
                 <p class="subtitle">Welcome back, here's what's happening with your team.</p>
@@ -36,24 +36,21 @@
         <div class="task-grid">
             <div class="task-card">
                 <span class="info-status">Tools</span>
-                <h3>Task Generator</h3>
-                <p style="color: var(--text-muted);">Assign daily duties to your employees within minutes using our
-                    smart algorithms.</p>
-                <button>Generate Tasks</button>
+                <h3>Task Planner</h3>
+                <p class="des">Add Task and Generate Plan for the Sub Tasks.</p>
+                <a href="/tasks"><button>Generate Tasks</button></a>
             </div>
             <div class="task-card">
                 <span class="info-status">Planning</span>
-                <h3>Route Planner</h3>
-                <p style="color: var(--text-muted);">Coordinate delivery routes or field visits efficiently with
-                    interactive maps.</p>
-                <button>Optimize Routes</button>
+                <h3>Routine Planner</h3>
+                <p class="des">Plan your Routine, Complete Deadline and Move forward.</p>
+                <a href="/routine"><button>Generate Routine</button></a>
             </div>
             <div class="task-card">
-                <span class="info-status" style="background-color: #228849; color: #fff;">Success</span>
+                <span class="info-status green">Success</span>
                 <h3>System Status</h3>
-                <p style="color: var(--text-muted);">External API connections are stable. All services are currently
-                    operational.</p>
-                <button style="border-color: #166534; color: #166534;">View Health</button>
+                <p class="des">External API connections are stable. All services are currently operational.</p>
+                <a href="/docs"><button>View Health</button></a>
             </div>
         </div>
     </div>
