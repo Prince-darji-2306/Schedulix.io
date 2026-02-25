@@ -10,34 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/main.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <style>
-        .task-table-container {
-            background: #fff;
-            padding: 5px 20px;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--glass-border);
-            margin-top: 2rem;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            text-align: left;
-            padding: 1.2rem 1rem;
-            border-bottom: 2px solid var(--bg-light);
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        td {
-            padding: 1.2rem 1rem;
-            border-bottom: 1px solid var(--bg-light);
-        }
-    </style>
 </head>
 
 <body style="display: block;">
@@ -53,10 +25,9 @@
     </nav>
 
     <div class="dashboard-container" style="margin: 0 auto;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="overview">
             <h1>Active Tasks</h1>
-            <a href="/add-task" class="status-badge status-todo"
-                style="text-decoration: none; padding: 0.8rem 1.5rem;">+ Add New Task</a>
+            <a href="/add-task" class="status-badge status-todo" id='addTask'>+ Add New Task</a>
         </div>
 
         <div class="task-table-container">
@@ -71,7 +42,7 @@
                 </thead>
                 <tbody id="tasksTableBody">
                     <tr>
-                        <td colspan="4" style="text-align: center;">Loading tasks...</td>
+                        <td colspan="4" class="tempbody">Loading tasks...</td>
                     </tr>
                 </tbody>
             </table>
@@ -82,7 +53,7 @@
     <div id="planModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="window.closeModal()">&times;</span>
-            <h2 id="modalTitle" style="margin-bottom: 1.5rem; text-align: left;">Task Plan</h2>
+            <h2 id="modalTitle">Task Plan</h2>
             <div id="planBody" class="plan-body">
                 <!-- AI Plan will be injected here -->
             </div>
