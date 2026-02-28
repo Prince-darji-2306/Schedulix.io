@@ -35,7 +35,7 @@ async function fetchRoutine() {
                                     onchange="toggleSubtask(${st.id}, this, ${task.id})">
                             </div>
                             <div class="routine-content">
-                                <span class="time-badge">${st.time_to}</span>
+                                <span class="time-badge">${(st.time_to || '00:00').substring(0, 5)}</span>
                                 <div class="routine-title">${st.subtask}</div>
                                 <div class="routine-desc">${st.description}</div>
                             </div>
