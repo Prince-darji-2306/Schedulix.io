@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    fetchRoutine();
+});
+
+async function fetchRoutine() {
     const routineList = document.getElementById('routine-list');
     const token = localStorage.getItem('token');
 
@@ -16,36 +20,60 @@ document.addEventListener('DOMContentLoaded', async () => {
         routineList.innerHTML = ''; // Clear loading
 
         if (data.routine && data.routine.length > 0) {
-            data.routine.forEach((item, index) => {
-                const itemDiv = document.createElement('div');
-                itemDiv.className = 'routine-item';
-                itemDiv.innerHTML = `
-                    <div class="check-container">
-                        <input type="checkbox" class="custom-checkbox" id="check-${item.id}" 
-                            ${item.is_completed ? 'checked' : ''} 
-                            onchange="toggleSubtask(${item.id}, this)">
+            data.routine.forEach((task) => {
+                const parentCard = document.createElement('div');
+                parentCard.className = 'routine-parent-card';
+                parentCard.id = `task-card-${task.id}`;
+
+                let subtasksHtml = '';
+                task.subtasks.forEach(st => {
+                    subtasksHtml += `
+                        <div class="subtask-item ${st.is_completed ? 'completed' : ''}">
+                            <div class="check-container">
+                                <input type="checkbox" class="custom-checkbox" id="check-${st.id}" 
+                                    ${st.is_completed ? 'checked' : ''} 
+                                    onchange="toggleSubtask(${st.id}, this, ${task.id})">
+                            </div>
+                            <div class="routine-content">
+                                <span class="time-badge">${st.time_to}</span>
+                                <div class="routine-title">${st.subtask}</div>
+                                <div class="routine-desc">${st.description}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                parentCard.innerHTML = `
+                    <div class="routine-parent-header" onclick="toggleAccordion(${task.id})">
+                        <div class="routine-parent-info">
+                            <h3>${task.title}</h3>
+                            <p>${task.description || 'No description'}</p>
+                        </div>
+                        <div class="expand-icon">▼</div>
                     </div>
-                    <div class="routine-content">
-                        <span class="time-badge">${item.time_to}</span>
-                        <div class="routine-title">${item.subtask} <small style="color:var(--text-muted); font-weight:400;">(${item.task_title})</small></div>
-                        <div class="routine-desc">${item.description}</div>
+                    <div class="subtask-list" id="sublist-${task.id}">
+                        ${subtasksHtml}
                     </div>
                 `;
-                if (item.is_completed) itemDiv.classList.add('completed');
-                routineList.appendChild(itemDiv);
+                routineList.appendChild(parentCard);
             });
         } else {
-            routineList.innerHTML = `<div id="empty-msg">${data.message || 'No approved routines for today. Go to Tasks and approve an AI plan!'}</div>`;
+            routineList.innerHTML = `<div id="empty-msg">No active routines for today. Go to Tasks and approve an AI plan!</div>`;
         }
     } catch (error) {
         console.error('Routine Error:', error);
         routineList.innerHTML = `<div id="empty-msg">Error fetching your routine. Please try again.</div>`;
     }
-});
+}
 
-async function toggleSubtask(subtaskId, checkbox) {
+function toggleAccordion(taskId) {
+    const card = document.getElementById(`task-card-${taskId}`);
+    card.classList.toggle('expanded');
+}
+
+async function toggleSubtask(subtaskId, checkbox, taskId) {
     const token = localStorage.getItem('token');
-    const item = checkbox.closest('.routine-item');
+    const item = checkbox.closest('.subtask-item');
     const is_completed = checkbox.checked;
 
     if (is_completed) {
@@ -55,7 +83,7 @@ async function toggleSubtask(subtaskId, checkbox) {
     }
 
     try {
-        await fetch(`/api/subtasks/${subtaskId}/toggle`, {
+        const response = await fetch(`/api/subtasks/${subtaskId}/toggle`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -63,6 +91,16 @@ async function toggleSubtask(subtaskId, checkbox) {
             },
             body: JSON.stringify({ is_completed })
         });
+
+        const result = await response.json();
+
+        // If parent task is completed, refresh the whole list after a short delay
+        if (result.task_completed) {
+            setTimeout(() => {
+                alert('Great job! Parent task completed.');
+                fetchRoutine();
+            }, 500);
+        }
     } catch (error) {
         console.error('Toggle Error:', error);
     }

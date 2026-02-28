@@ -1,3 +1,17 @@
+function roundHour(inputElement) {
+    if (!inputElement.value) return;
+
+    let [hour, minute] = inputElement.value.split(":").map(Number);
+
+    // If minute >= 30, increase hour
+    if (minute >= 30) {
+        hour = (hour + 1) % 24;  // Handles 23 → 00
+    }
+
+    // Set minutes always to 00
+    inputElement.value = String(hour).padStart(2, '0') + ":00";
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const taskForm = document.getElementById('taskForm');
 
@@ -14,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const formData = new FormData(taskForm);
             const data = Object.fromEntries(formData.entries());
-
+            console.log(data);
             const spinner = document.getElementById('spinner');
             if (spinner) spinner.style.display = 'flex';
 
@@ -63,8 +77,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const tasks = await response.json();
+                console.log('Fetched tasks:', tasks);
 
                 if (response.ok) {
+                    if (tasks.length === 0) {
+                        tasksTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 2rem; color: var(--text-muted);">No tasks found. Click "Add New Task" to get started!</td></tr>';
+                        return;
+                    }
                     tasksTableBody.innerHTML = tasks.map(task => {
                         let plan = "No plan generated";
                         if (task.ai_plan_json && task.ai_plan_json.final_plan) {
@@ -73,20 +92,23 @@ document.addEventListener('DOMContentLoaded', () => {
                         return `
                         <tr>
                             <td><strong>${task.title}</strong></td>
-                            <td>${task.description || 'N/A'}</td>
-                            <td>${task.deadline || 'N/A'}</td>
+                            <td class="task-description">${task.description || 'N/A'}</td>
+                            <td>${(task.time || '00:00').substring(0, 5)} on ${task.deadline_date || 'N/A'} </td>
+                            <td><span class="status-badge status-${(task.status || 'pending').toLowerCase()}">${task.status || 'Pending'}</span></td>
                             <td>
-                                <button onclick="window.showPlan(\`${encodeURIComponent(task.title)}\`, \`${encodeURIComponent(plan)}\`, ${task.id})" class="status-badge status-todo">View Plan</button>
+                                <button onclick="window.showPlan(\`${encodeURIComponent(task.title)}\`, \`${encodeURIComponent(plan)}\`, ${task.id}, ${task.plan_approved})" class="status-badge status-todo" id = 'viewplan'>View Plan</button>
                             </td>
                         </tr>
                     `}).join('');
+                } else {
+                    tasksTableBody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: #ff4d4d; padding: 2rem;">Error: ${tasks.detail || 'Failed to fetch tasks'}</td></tr>`;
                 }
             } catch (error) {
                 console.error('Fetch Error:', error);
             }
         };
 
-        window.showPlan = (title, encodedPlan, taskId) => {
+        window.showPlan = (title, encodedPlan, taskId, isApproved) => {
             const modal = document.getElementById('planModal');
             const modalTitle = document.getElementById('modalTitle');
             const planBody = document.getElementById('planBody');
@@ -111,6 +133,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 modal.style.display = 'flex';
+
+                // Toggle Approve Button
+                const approveBtn = document.getElementById('approveBtn');
+                if (approveBtn) {
+                    approveBtn.style.display = isApproved ? 'none' : 'block';
+                }
 
                 // Store task info for approval
                 window.currentTaskForApproval = {
@@ -149,6 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     alert('Plan approved! Subtasks have been scheduled.');
                     window.closeModal();
+                    fetchTasks(); // Refresh to hide Approve Button later
                 } else {
                     const result = await response.json();
                     alert(`Failed to approve plan: ${result.detail || 'Unknown error'}`);

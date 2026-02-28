@@ -40,16 +40,22 @@
                 <label for="description">Description</label>
                 <input type="text" id="description" name="description" placeholder="Short detail about the task">
             </div>
-            <div class="form-group">
-                <label for="deadline">Deadline</label>
-                <input type="datetime-local" id="deadline" name="deadline" required>
+            <div class="form-group" style="display: flex; gap: 1rem;">
+                <div style="flex: 1;">
+                    <label for="deadline_date">Deadline Date</label>
+                    <input type="date" id="deadline_date" name="deadline_date" required>
+                </div>
+                <div style="flex: 1;">
+                    <label for="time">Deadline Time (Hourly)</label>
+                    <input type="time" id="time" name="time" step="3600" required onchange="roundHour(this)">
+                </div>
             </div>
             <div class="form-group">
                 <label for="status">Initial Status</label>
                 <select id="status" name="status">
-                    <option value="Pending">Pending</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Completed">Completed</option>
+                    <option value="pending">Pending</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="completed">Completed</option>
                 </select>
             </div>
             <button type="submit">Create Task</button>

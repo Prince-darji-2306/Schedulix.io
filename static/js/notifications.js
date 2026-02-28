@@ -20,9 +20,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const div = document.createElement('div');
                     div.className = `notif-item ${note.is_read ? '' : 'unread'}`;
                     div.innerHTML = `
-                        <div class="notif-time">${note.created_at}</div>
+                        <div class="notif-header">
+                            <div class="notif-time">${note.created_at}</div>
+                            ${note.is_read ? '' : `<span class="mark-read" onclick="markRead(${note.id})">Mark as read</span>`}
+                        </div>
                         <div class="notif-message">${note.message}</div>
-                        ${note.is_read ? '' : `<span class="mark-read" onclick="markRead(${note.id})">Mark as read</span>`}
                     `;
                     notifList.appendChild(div);
                 });
