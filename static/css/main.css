@@ -31,7 +31,6 @@ body {
     align-items: flex-start;
     overflow-x: hidden;
     padding-top: 80px;
-    /* Space for fixed navbar */
 }
 
 .glass-card {
@@ -67,15 +66,13 @@ h1 {
     letter-spacing: -0.02em;
 }
 
-/* p.subtitle {
-    color: var(--text-muted);
-    text-align: center;
-    margin-bottom: 2.5rem;
-    font-size: 1.05rem;
-} */
-
 .form-group {
     margin-bottom: 1.5rem;
+}
+
+#timegroup {
+    display: flex;
+    gap: 1rem;
 }
 
 label {
@@ -147,18 +144,24 @@ button {
     border-radius: 4px;
 }
 
+.task-card button.green:hover {
+    background-color: #228849;
+    border: 2px solid #228849;
+    color: #fff;
+}
+
 .dashboard-container {
     max-width: 1200px;
     width: 90%;
     margin: 0 auto;
-    padding: 2rem 0 3rem 0;
+    padding: 0rem 0 3rem 0;
 }
 
 .overview {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     gap: 1rem;
 }
 
@@ -174,8 +177,8 @@ button {
     left: 0;
     right: 0;
     background: rgba(240, 240, 219, 0.8);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     padding: 1.2rem 5%;
     display: flex;
     justify-content: space-between;
@@ -216,7 +219,7 @@ button {
     border: 1px solid var(--glass-border);
     border-radius: 20px;
     padding: 2rem;
-    max-width: 350px;
+    max-width: 358px;
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     box-shadow: var(--shadow);
 }
@@ -312,6 +315,10 @@ th {
 td {
     padding: 1.2rem 1rem;
     border-bottom: 1px solid var(--bg-light);
+}
+
+.task-description {
+    max-width: 360px;
 }
 
 tempbody {
@@ -495,9 +502,9 @@ tempbody {
 }
 
 .routine-container {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 2rem;
+    max-width: 950px;
+    margin: 0rem auto;
+    padding: 1rem;
 }
 
 .routine-item {
@@ -555,6 +562,105 @@ tempbody {
     color: var(--text-muted);
     font-size: 0.95rem;
     line-height: 1.5;
+}
+
+/* Hierarchical Routine Styles */
+.routine-parent-card {
+    background: #fff;
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+}
+
+.routine-parent-card:hover {
+    border-color: var(--primary);
+}
+
+.routine-parent-header {
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background: #fff;
+    transition: background 0.3s ease;
+}
+
+.routine-parent-header:hover {
+    background: var(--bg-light);
+}
+
+.routine-parent-info h3 {
+    margin-bottom: 0.2rem;
+    font-size: 1.4rem;
+}
+
+.routine-parent-info p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.expand-icon {
+    font-size: 1.2rem;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--primary);
+}
+
+.routine-parent-card.expanded .expand-icon {
+    transform: rotate(180deg);
+}
+
+.subtask-list {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    padding: 0 1.5rem;
+    background: rgba(48, 54, 79, 0.02);
+    border-top: 1px solid transparent;
+    transition: max-height 1s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.3s ease,
+        padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+        border-color 0.4s ease;
+}
+
+.routine-parent-card.expanded .subtask-list {
+    max-height: 2000px;
+    /* Large enough to fit content */
+    opacity: 1;
+    padding: 0 1.5rem 1.5rem 1.5rem;
+    border-top: 1px solid var(--glass-border);
+}
+
+.subtask-item {
+    background: #fff;
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 1.2rem;
+    margin-top: 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.subtask-item:hover {
+    transform: translateX(5px);
+    border-color: var(--primary);
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Checked state styling */
