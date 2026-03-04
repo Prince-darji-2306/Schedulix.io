@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register | Schedulix.io</title>
+    <title>Login | Schedulix.io</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -13,14 +13,9 @@
 
 <body>
     <div class="glass-card">
-        <h1>Join Schedulix</h1>
-        <p class="subtitle">Start planning your day effectively.</p>
+        <h1>Schedulix.io</h1>
 
-        <form id="registerForm">
-            <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" placeholder="John Doe" required>
-            </div>
+        <form id="loginForm">
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <input type="email" id="email" name="email" placeholder="name@company.com" required>
@@ -29,13 +24,14 @@
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" placeholder="••••••••" required>
             </div>
-            <button type="submit">Create Account</button>
+            <button type="submit">Sign In</button>
         </form>
 
         <div class="footer-link">
-            Already have an account? <a href="/login">Login here</a>
+            New here? <a href="/register.html">Create an account</a>
         </div>
     </div>
+    <script src="/static/js/config.js"></script>
     <script src="/static/js/auth.js"></script>
 </body>
 

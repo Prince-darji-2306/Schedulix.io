@@ -26,21 +26,29 @@ async def approve_plan(request: Request, payload: dict = Depends(get_current_use
     user_id = payload.get("id")
 
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    from psycopg2.extras import RealDictCursor
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
         cursor.execute("SELECT time, ai_plan_json FROM tasks WHERE id = %s AND user_id = %s", (task_id, user_id))
         task = cursor.fetchone()
         if not task or not task['ai_plan_json']:
             raise HTTPException(status_code=404, detail="Task or plan not found")
         
-        plan_data = json.loads(task['ai_plan_json'])
+        plan_data = task['ai_plan_json']
+        if isinstance(plan_data, str):
+            plan_data = json.loads(plan_data)
+            
         # final_plan contains the stringified JSON from LangGraph
         final_plan_str = plan_data.get("final_plan", "")
         
         try:
-            final_plan_obj = json.loads(final_plan_str)
+            if isinstance(final_plan_str, str):
+                final_plan_obj = json.loads(final_plan_str)
+            else:
+                final_plan_obj = final_plan_str
             subtasks_list = final_plan_obj.get("subtasks", [])
-        except:
+        except Exception as e:
+            print(f"Error parsing final_plan: {e}")
             subtasks_list = []
 
         if not subtasks_list:

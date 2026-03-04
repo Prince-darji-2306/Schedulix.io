@@ -1,0 +1,32 @@
+{
+    "rewrites": [
+        {
+            "source": "/login",
+            "destination": "/index.html"
+        },
+        {
+            "source": "/register",
+            "destination": "/register.html"
+        },
+        {
+            "source": "/dashboard",
+            "destination": "/dashboard.html"
+        },
+        {
+            "source": "/tasks",
+            "destination": "/tasks_todo.html"
+        },
+        {
+            "source": "/add-task",
+            "destination": "/add_task.html"
+        },
+        {
+            "source": "/routine",
+            "destination": "/routine.html"
+        },
+        {
+            "source": "/notifications",
+            "destination": "/notifications.html"
+        }
+    ]
+}

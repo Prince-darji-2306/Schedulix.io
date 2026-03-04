@@ -1,9 +1,10 @@
 from repos.database import get_db_connection
-import mysql.connector
+import psycopg2
+from psycopg2.extras import RealDictCursor
 
 def get_user_by_email(email: str):
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
         cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
         return cursor.fetchone()
@@ -21,7 +22,7 @@ def create_user(username: str, email: str, hashed_pw: str):
         )
         conn.commit()
         return True
-    except mysql.connector.IntegrityError:
+    except psycopg2.IntegrityError:
         return False
     finally:
         cursor.close()

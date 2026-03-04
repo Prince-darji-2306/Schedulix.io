@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Routine | Schedulix.io</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body style="display: block;">
+    <nav class="navbar">
+        <div class="nav-logo">Schedulix.io</div>
+        <div class="nav-links">
+            <a href="/dashboard.html">Dashboard</a>
+            <a href="/tasks_todo.html">Tasks</a>
+            <a href="/routine.html">Daily Routine</a>
+            <a href="/notifications.html">Notifications</a>
+            <a href="/index.html">Logout</a>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="overview">
+            <div>
+                <h1>Daily Routine</h1>
+                <p class="subtitle" id="today-date"></p>
+            </div>
+        </div>
+
+        <div id="routine-container" class="routine-list">
+            <!-- Routine items will be loaded here -->
+        </div>
+    </div>
+
+    <script src="/static/js/config.js"></script>
+    <script src="/static/js/routine.js"></script>
+    <script>
+        document.getElementById('today-date').innerText = new Date().toLocaleDateString('en-US', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        });
+    </script>
+</body>
+
+</html>

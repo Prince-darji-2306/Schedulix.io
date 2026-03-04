@@ -7,12 +7,12 @@ async function fetchRoutine() {
     const token = localStorage.getItem('token');
 
     if (!token) {
-        window.location.href = '/login';
+        window.location.href = '/index.html';
         return;
     }
 
     try {
-        const response = await fetch('/api/routine', {
+        const response = await fetch(`${CONFIG.BACKEND_API_URL}/api/routine`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await response.json();
@@ -83,7 +83,7 @@ async function toggleSubtask(subtaskId, checkbox, taskId) {
     }
 
     try {
-        const response = await fetch(`/api/subtasks/${subtaskId}/toggle`, {
+        const response = await fetch(`${CONFIG.BACKEND_API_URL}/api/subtasks/${subtaskId}/toggle`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,

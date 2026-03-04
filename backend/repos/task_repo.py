@@ -1,9 +1,11 @@
 from repos.database import get_db_connection
 import json
+from psycopg2.extras import RealDictCursor
+from datetime import datetime, date, time
 
 def get_tasks_by_user(user_id: int):
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
         query = """
         SELECT 
@@ -15,7 +17,7 @@ def get_tasks_by_user(user_id: int):
             deadline_date,
             time,
             CASE 
-                WHEN status != 'completed' AND CONCAT(deadline_date, ' ', time) < NOW()
+                WHEN status != 'completed' AND (deadline_date + time) < NOW()
                     THEN 'overdue'
                 ELSE status
             END AS status
@@ -23,7 +25,7 @@ def get_tasks_by_user(user_id: int):
         WHERE user_id = %s
         ORDER BY
             CASE 
-                WHEN status != 'completed' AND CONCAT(deadline_date, ' ', time) < NOW() THEN 1  -- Overdue
+                WHEN status != 'completed' AND (deadline_date + time) < NOW() THEN 1  -- Overdue
                 WHEN status = 'pending' THEN 2                          -- Pending
                 WHEN status = 'completed' THEN 3                        -- Completed
                 ELSE 4
@@ -44,11 +46,15 @@ def get_tasks_by_user(user_id: int):
             else:
                  task['time'] = '00:00:00'
             
-            if task['ai_plan_json']:
+            # psycopg2 might return JSONB as a dict already
+            if isinstance(task['ai_plan_json'], str):
                 try:
                     task['ai_plan_json'] = json.loads(task['ai_plan_json'])
                 except:
                     task['ai_plan_json'] = {"error": "Invalid plan format"}
+            elif task['ai_plan_json'] is None:
+                task['ai_plan_json'] = None
+            
         return tasks
     finally:
         cursor.close()
@@ -71,7 +77,7 @@ def create_task_record(title: str, description: str, user_id: int, deadline_date
 
 def get_tasks_for_today(user_id: int, today_str: str):
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
         query = "SELECT title, description, ai_plan_json, deadline_date, time FROM tasks WHERE user_id = %s AND deadline_date = %s"
         cursor.execute(query, (user_id, today_str))
@@ -96,7 +102,7 @@ def create_subtask(task_id: int, subtask: str, description: str, time_to: str):
 
 def get_subtasks_for_today_all(user_id: int, today_str: str):
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
         query = """
             SELECT s.*, t.title as task_title 
@@ -127,7 +133,7 @@ def update_subtask_status(subtask_id: int, is_completed: bool):
 
 def get_hierarchical_routine(user_id: int, today_str: str):
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
         # Fetch tasks that are not completed and have a deadline today
         query_tasks = """
@@ -155,7 +161,7 @@ def get_hierarchical_routine(user_id: int, today_str: str):
 
 def check_and_update_task_status(subtask_id: int):
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
         # Get task_id for the subtask
         cursor.execute("SELECT task_id FROM subtasks WHERE id = %s", (subtask_id,))
@@ -175,11 +181,12 @@ def check_and_update_task_status(subtask_id: int):
             return True
         else:
             # If not all are completed, ensure it's not marked as 'completed'
-            # (unless it was explicitly marked, but here we automate it)
             cursor.execute("SELECT status FROM tasks WHERE id = %s", (task_id,))
-            current_status = cursor.fetchone()['status']
-            if current_status == 'completed':
-                update_task_status(task_id, 'pending')
+            res_status = cursor.fetchone()
+            if res_status:
+                current_status = res_status['status']
+                if current_status == 'completed':
+                    update_task_status(task_id, 'pending')
         return False
     finally:
         cursor.close()
@@ -208,7 +215,7 @@ def update_plan_approval_status(task_id: int, approved: bool):
 # --- Notifications Methods ---
 def get_user_notifications(user_id: int):
     conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
         cursor.execute("SELECT * FROM notifications WHERE user_id = %s ORDER BY created_at DESC", (user_id,))
         notifications = cursor.fetchall()
