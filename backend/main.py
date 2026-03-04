@@ -9,6 +9,10 @@ load_dotenv()
 
 app = FastAPI(title="Schedulix.io API")
 
+@app.get("/health")
+async def health_check():
+    return {"status": "success"}
+
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
