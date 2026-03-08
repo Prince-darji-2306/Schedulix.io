@@ -7,11 +7,24 @@ from api import auth, tasks, notifications
 
 load_dotenv()
 
-app = FastAPI(title="Schedulix.io API")
+app = FastAPI(
+    title="Schedulix.io API",
+    docs_url="/docs",
+    openapi_url="/openapi.json"
+)
 
 @app.get("/health")
 async def health_check():
     return {"status": "success"}
+
+
+@app.get("/health/docs")
+async def health_docs_check():
+    return {
+        "status": "success",
+        "docs_available": True,
+        "docs_url": "/docs"
+    }
 
 # Configure CORS
 app.add_middleware(

@@ -2,8 +2,56 @@ from repos.database import get_db_connection
 import json
 from psycopg2.extras import RealDictCursor
 from datetime import datetime, date, time
+import copy
+import threading
+from time import time as now_ts
+
+CACHE_TTL_SECONDS = 60
+_CACHE = {}
+_CACHE_LOCK = threading.Lock()
+
+
+def _cache_get(key: str):
+    with _CACHE_LOCK:
+        item = _CACHE.get(key)
+        if not item:
+            return None
+
+        expires_at, value = item
+        if expires_at < now_ts():
+            _CACHE.pop(key, None)
+            return None
+
+        return copy.deepcopy(value)
+
+
+def _cache_set(key: str, value, ttl_seconds: int = CACHE_TTL_SECONDS):
+    with _CACHE_LOCK:
+        _CACHE[key] = (now_ts() + ttl_seconds, copy.deepcopy(value))
+
+
+def _cache_invalidate_prefix(prefix: str):
+    with _CACHE_LOCK:
+        keys_to_delete = [key for key in _CACHE.keys() if key.startswith(prefix)]
+        for key in keys_to_delete:
+            _CACHE.pop(key, None)
+
+
+def _invalidate_task_related_cache(user_id: int):
+    _cache_invalidate_prefix(f"tasks:{user_id}:")
+    _cache_invalidate_prefix(f"routine:{user_id}:")
+    _cache_invalidate_prefix(f"notifications:{user_id}:")
+
+
+def _invalidate_notifications_cache(user_id: int):
+    _cache_invalidate_prefix(f"notifications:{user_id}:")
 
 def get_tasks_by_user(user_id: int):
+    cache_key = f"tasks:{user_id}:all"
+    cached = _cache_get(cache_key)
+    if cached is not None:
+        return cached
+
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
@@ -55,6 +103,7 @@ def get_tasks_by_user(user_id: int):
             elif task['ai_plan_json'] is None:
                 task['ai_plan_json'] = None
             
+        _cache_set(cache_key, tasks)
         return tasks
     finally:
         cursor.close()
@@ -70,6 +119,7 @@ def create_task_record(title: str, description: str, user_id: int, deadline_date
             (title, description, user_id, deadline_date, time, status.lower(), ai_plan_json)
         )
         conn.commit()
+        _invalidate_task_related_cache(user_id)
         return True
     finally:
         cursor.close()
@@ -95,7 +145,12 @@ def create_subtask(task_id: int, subtask: str, description: str, time_to: str):
             "INSERT INTO subtasks (task_id, subtask, description, time_to) VALUES (%s, %s, %s, %s)",
             (task_id, subtask, description, time_to)
         )
+        cursor.execute("SELECT user_id FROM tasks WHERE id = %s", (task_id,))
+        row = cursor.fetchone()
         conn.commit()
+
+        if row:
+            _invalidate_task_related_cache(row[0])
     finally:
         cursor.close()
         conn.close()
@@ -125,13 +180,36 @@ def update_subtask_status(subtask_id: int, is_completed: bool):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        cursor.execute("UPDATE subtasks SET is_completed = %s WHERE id = %s", (is_completed, subtask_id))
+        cursor.execute(
+            """
+            UPDATE subtasks
+            SET is_completed = %s
+            WHERE id = %s
+            RETURNING task_id
+            """,
+            (is_completed, subtask_id)
+        )
+        task_row = cursor.fetchone()
+
+        user_row = None
+        if task_row:
+            cursor.execute("SELECT user_id FROM tasks WHERE id = %s", (task_row[0],))
+            user_row = cursor.fetchone()
+
         conn.commit()
+
+        if user_row:
+            _invalidate_task_related_cache(user_row[0])
     finally:
         cursor.close()
         conn.close()
 
 def get_hierarchical_routine(user_id: int, today_str: str):
+    cache_key = f"routine:{user_id}:{today_str}"
+    cached = _cache_get(cache_key)
+    if cached is not None:
+        return cached
+
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
@@ -154,6 +232,7 @@ def get_hierarchical_routine(user_id: int, today_str: str):
                     st['time_to'] = str(st['time_to'])
             task['subtasks'] = subtasks
             
+        _cache_set(cache_key, tasks)
         return tasks
     finally:
         cursor.close()
@@ -196,8 +275,12 @@ def update_task_status(task_id: int, status: str):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        cursor.execute("UPDATE tasks SET status = %s WHERE id = %s", (status.lower(), task_id))
+        cursor.execute("UPDATE tasks SET status = %s WHERE id = %s RETURNING user_id", (status.lower(), task_id))
+        row = cursor.fetchone()
         conn.commit()
+
+        if row:
+            _invalidate_task_related_cache(row[0])
     finally:
         cursor.close()
         conn.close()
@@ -206,14 +289,23 @@ def update_plan_approval_status(task_id: int, approved: bool):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        cursor.execute("UPDATE tasks SET plan_approved = %s WHERE id = %s", (approved, task_id))
+        cursor.execute("UPDATE tasks SET plan_approved = %s WHERE id = %s RETURNING user_id", (approved, task_id))
+        row = cursor.fetchone()
         conn.commit()
+
+        if row:
+            _invalidate_task_related_cache(row[0])
     finally:
         cursor.close()
         conn.close()
 
 # --- Notifications Methods ---
 def get_user_notifications(user_id: int):
+    cache_key = f"notifications:{user_id}:all"
+    cached = _cache_get(cache_key)
+    if cached is not None:
+        return cached
+
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
@@ -222,6 +314,8 @@ def get_user_notifications(user_id: int):
         for note in notifications:
             if note['created_at']:
                 note['created_at'] = note['created_at'].strftime("%Y-%m-%d %H:%M")
+
+        _cache_set(cache_key, notifications)
         return notifications
     finally:
         cursor.close()
@@ -231,8 +325,12 @@ def mark_note_as_read(note_id: int):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        cursor.execute("UPDATE notifications SET is_read = TRUE WHERE id = %s", (note_id,))
+        cursor.execute("UPDATE notifications SET is_read = TRUE WHERE id = %s RETURNING user_id", (note_id,))
+        row = cursor.fetchone()
         conn.commit()
+
+        if row:
+            _invalidate_notifications_cache(row[0])
     finally:
         cursor.close()
         conn.close()
@@ -243,6 +341,7 @@ def create_user_notification(user_id: int, message: str):
     try:
         cursor.execute("INSERT INTO notifications (user_id, message) VALUES (%s, %s)", (user_id, message))
         conn.commit()
+        _invalidate_notifications_cache(user_id)
     finally:
         cursor.close()
         conn.close()
