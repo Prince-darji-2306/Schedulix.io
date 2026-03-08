@@ -21,7 +21,7 @@ from fastapi.staticfiles import StaticFiles
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Include Routers
-app.include_router(pages.router)
+# app.include_router(pages.router)
 app.include_router(auth.router)
 app.include_router(tasks.router)
 app.include_router(notifications.router)
