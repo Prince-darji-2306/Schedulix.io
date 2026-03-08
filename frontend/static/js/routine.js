@@ -6,6 +6,11 @@ async function fetchRoutine() {
     const routineList = document.getElementById('routine-list');
     const token = localStorage.getItem('token');
 
+    if (!routineList) {
+        console.error('Routine container #routine-list not found.');
+        return;
+    }
+
     if (!token) {
         window.location.href = '/index.html';
         return;
@@ -49,7 +54,7 @@ async function fetchRoutine() {
                             <h3>${task.title}</h3>
                             <p>${task.description || 'No description'}</p>
                         </div>
-                        <div class="expand-icon">▼</div>
+                        <div class="expand-icon">&#9660;</div>
                     </div>
                     <div class="subtask-list" id="sublist-${task.id}">
                         ${subtasksHtml}
@@ -105,3 +110,4 @@ async function toggleSubtask(subtaskId, checkbox, taskId) {
         console.error('Toggle Error:', error);
     }
 }
+
