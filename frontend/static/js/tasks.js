@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const token = localStorage.getItem('token');
             if (!token) {
                 alert('You must be logged in to add tasks');
-                window.location.href = '/index.html';
+                window.location.href = '/login';
                 return;
             }
 
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = true;
 
             try {
-                const response = await fetch(`${CONFIG.BACKEND_API_URL}/api/tasks`, {
+                const response = await fetch('/api/tasks', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     alert('Success: Task created successfully!');
                     taskForm.reset();
-                    window.location.href = '/tasks_todo.html';
+                    window.location.href = '/tasks';
                 } else {
                     alert(`Error: ${result.detail || 'Failed to create task'}`);
                 }
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!token) return;
 
             try {
-                const response = await fetch(`${CONFIG.BACKEND_API_URL}/api/tasks`, {
+                const response = await fetch('/api/tasks', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const tasks = await response.json();
@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!token) {
                 alert('Session expired. Please login again.');
-                window.location.href = '/index.html';
+                window.location.href = '/login';
                 return;
             }
 
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.disabled = true;
 
             try {
-                const response = await fetch(`${CONFIG.BACKEND_API_URL}/api/approve-plan`, {
+                const response = await fetch('/api/approve-plan', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,

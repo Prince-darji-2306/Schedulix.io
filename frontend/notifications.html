@@ -14,29 +14,34 @@
 <body style="display: block;">
     <nav class="navbar">
         <div class="nav-logo">Schedulix.io</div>
-        <div class="nav-links">
-            <a href="/dashboard.html">Dashboard</a>
-            <a href="/tasks_todo.html">Tasks</a>
-            <a href="/routine.html">Daily Routine</a>
-            <a href="/notifications.html">Notifications</a>
-            <a href="/index.html">Logout</a>
+        <button class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="nav-links" id="navLinks">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/tasks">Tasks</a>
+            <a href="/routine">Daily Routine</a>
+            <a href="/notifications">Notifications</a>
+            <a href="/login">Logout</a>
         </div>
     </nav>
 
-    <div class="dashboard-container" style="max-width: 800px;">
-        <div class="overview">
+    <div class="dashboard-container">
+        <div class="overview centered">
             <div>
                 <h1>Notifications</h1>
-                <p class="subtitle">Stay updated on your task planning and approvals.</p>
+                <p class="subtitle">Stay updated with your task plans and system alerts.</p>
             </div>
         </div>
 
         <div id="notif-list" class="notif-container">
-            <!-- Notifications will be loaded here -->
+            <!-- Notifications will be injected here -->
         </div>
     </div>
 
-    <script src="/static/js/config.js"></script>
+    <script src="/static/js/nav.js"></script>
     <script src="/static/js/notifications.js"></script>
 </body>
 

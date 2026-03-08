@@ -299,15 +299,6 @@ p {
     margin-top: 2rem;
 }
 
-.table-container {
-    background: #fff;
-    padding: 5px 20px;
-    border-radius: 20px;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--glass-border);
-    margin-top: 2rem;
-}
-
 table {
     width: 100%;
     border-collapse: collapse;
@@ -759,5 +750,533 @@ tempbody {
 
     100% {
         transform: rotate(360deg);
+    }
+}
+
+/* ========================================
+   RESPONSIVE DESIGN - MOBILE FIRST
+   ======================================== */
+
+/* Base styles (Mobile: 320px - 768px) */
+body {
+    padding-top: 70px; /* Reduced for mobile */
+    font-size: 16px; /* Better mobile readability */
+}
+
+.glass-card {
+    padding: 2rem 1.5rem; /* Reduced padding for mobile */
+    max-width: 100%;
+    margin: 0 1rem;
+}
+
+h1 {
+    font-size: 2rem; /* Slightly smaller for mobile */
+    line-height: 1.2;
+}
+
+h3 {
+    font-size: 1.1rem; /* Better mobile sizing */
+}
+
+label {
+    font-size: 0.85rem; /* Slightly smaller for mobile */
+}
+
+input {
+    font-size: 1rem; /* Ensure proper mobile font size */
+    padding: 0.8rem 1rem; /* Better touch target */
+}
+
+button {
+    font-size: 1rem; /* Better mobile button text */
+    padding: 1rem; /* Larger touch target */
+}
+
+/* Navigation responsive styles */
+.navbar {
+    padding: 1rem 4%; /* Reduced padding */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(240, 240, 219, 0.9); /* Slightly more opaque for mobile */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1000;
+}
+
+.nav-logo {
+    font-size: 1.4rem; /* Smaller logo for mobile */
+}
+
+.nav-links {
+    display: none; /* Hidden by default on mobile */
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: rgba(240, 240, 219, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 2rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid var(--glass-border);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+
+.nav-links.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.nav-links a {
+    font-size: 1.1rem; /* Larger for mobile */
+    margin-left: 0; /* Remove left margin */
+    padding: 0.5rem 0;
+    border-bottom: 2px solid transparent;
+    width: 100%;
+}
+
+.nav-links a:hover {
+    border-bottom-color: var(--accent);
+    background: none;
+}
+
+/* Hamburger menu button */
+.hamburger {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--primary);
+    padding: 0.5rem;
+    z-index: 1001;
+}
+
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: var(--primary);
+    margin: 4px 0;
+    transition: 0.3s;
+    border-radius: 2px;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
+
+/* Dashboard responsive styles */
+.dashboard-container {
+    width: 100%;
+    padding: 1rem 1rem 3rem 1rem;
+}
+
+.overview {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.task-grid {
+    gap: 1.5rem;
+    justify-content: center; /* Center cards on mobile */
+}
+
+.task-card {
+    max-width: 100%;
+    padding: 1.5rem; /* Reduced padding */
+    margin-bottom: 1rem;
+}
+
+/* Task table responsive styles */
+.task-table-container {
+    overflow-x: auto; /* Horizontal scroll for mobile */
+    -webkit-overflow-scrolling: touch;
+    margin: 1.5rem 0;
+}
+
+table {
+    min-width: 600px; /* Ensure table has minimum width */
+}
+
+th, td {
+    padding: 0.8rem 0.5rem; /* Reduced padding */
+    font-size: 0.9rem;
+}
+
+/* Modal responsive styles */
+.modal-content {
+    width: 95%;
+    padding: 1.5rem;
+    max-height: 90vh;
+}
+
+.close-btn {
+    top: 4.5rem;
+    right: 2.5%;
+    font-size: 1.2rem;
+}
+
+/* Notification responsive styles */
+.notif-container {
+    padding: 1rem;
+}
+
+.notif-item {
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.notif-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+/* Routine responsive styles */
+.routine-container {
+    padding: 1rem;
+}
+
+.routine-item {
+    padding: 1rem;
+    gap: 1rem;
+    flex-direction: column; /* Stack items on mobile */
+    align-items: flex-start;
+}
+
+.check-container {
+    order: 1; /* Move checkbox to top on mobile */
+}
+
+.routine-content {
+    order: 2; /* Move content below checkbox */
+    width: 100%;
+}
+
+.time-badge {
+    order: 3; /* Move time to bottom */
+    align-self: flex-start;
+}
+
+/* Form responsive styles */
+#timegroup {
+    flex-direction: column; /* Stack time inputs on mobile */
+    gap: 0.5rem;
+}
+
+.footer-link {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+}
+
+/* ========================================
+   TABLET BREAKPOINT (769px - 1024px)
+   ======================================== */
+@media screen and (min-width: 769px) {
+    body {
+        padding-top: 80px;
+        font-size: 16px;
+    }
+
+    .glass-card {
+        padding: 2.5rem;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+    }
+
+    .navbar {
+        padding: 1.2rem 5%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .nav-logo {
+        font-size: 1.5rem;
+    }
+
+    .nav-links {
+        display: flex !important;
+        position: static;
+        background: transparent;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        padding: 0;
+        flex-direction: row;
+        gap: 2rem;
+        transform: none;
+        opacity: 1;
+        visibility: visible;
+        box-shadow: none;
+        border-bottom: none;
+    }
+
+    .hamburger {
+        display: none;
+    }
+
+    .dashboard-container {
+        width: 95%;
+        padding: 1.5rem 2rem 3rem 2rem;
+    }
+
+    .overview {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .task-grid {
+        gap: 2rem;
+        justify-content: flex-start;
+    }
+
+    .task-card {
+        max-width: 320px;
+        padding: 1.8rem;
+    }
+
+    .task-table-container {
+        overflow-x: visible;
+    }
+
+    table {
+        min-width: 100%;
+    }
+
+    th, td {
+        padding: 1rem;
+        font-size: 0.95rem;
+    }
+
+    .modal-content {
+        width: 85%;
+        max-width: 700px;
+        padding: 2rem;
+    }
+
+    .close-btn {
+        top: 5rem;
+        right: 7.5%;
+    }
+
+    .notif-container {
+        padding: 1.5rem;
+    }
+
+    .notif-item {
+        padding: 1.2rem;
+    }
+
+    .notif-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .routine-item {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+
+    .check-container {
+        order: 0;
+    }
+
+    .routine-content {
+        order: 0;
+        width: auto;
+    }
+
+    .time-badge {
+        order: 0;
+        align-self: auto;
+    }
+
+    #timegroup {
+        flex-direction: row;
+        gap: 1rem;
+    }
+}
+
+/* ========================================
+   DESKTOP BREAKPOINT (1025px+)
+   ======================================== */
+@media screen and (min-width: 1025px) {
+    body {
+        padding-top: 80px;
+        font-size: 16px;
+    }
+
+    .glass-card {
+        padding: 3rem;
+        max-width: 480px;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    h3 {
+        font-size: 1.3rem;
+    }
+
+    .navbar {
+        padding: 1.2rem 5%;
+    }
+
+    .nav-logo {
+        font-size: 1.6rem;
+    }
+
+    .dashboard-container {
+        max-width: 1200px;
+        width: 90%;
+        margin: 0 auto;
+        padding: 0rem 0 3rem 0;
+    }
+
+    .task-grid {
+        gap: 2rem;
+        justify-content: flex-start;
+    }
+
+    .task-card {
+        max-width: 358px;
+        padding: 2rem;
+    }
+
+    .modal-content {
+        width: 90%;
+        max-width: 800px;
+        padding: 2.5rem;
+    }
+
+    .close-btn {
+        top: 5.5rem;
+        right: 22%;
+        font-size: 1.5rem;
+    }
+
+    .notif-container {
+        max-width: 800px;
+        margin: 0rem auto;
+    }
+
+    .routine-container {
+        max-width: 950px;
+        margin: 0rem auto;
+        padding: 1rem;
+    }
+
+    #timegroup {
+        gap: 1rem;
+    }
+}
+
+/* ========================================
+   ADDITIONAL RESPONSIVE IMPROVEMENTS
+   ======================================== */
+
+/* Touch-friendly enhancements */
+button, input, .nav-links a {
+    min-height: 44px; /* Apple's recommended minimum touch target */
+    min-width: 44px;
+}
+
+/* Responsive typography scaling */
+@media screen and (max-width: 480px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    .nav-logo {
+        font-size: 1.3rem;
+    }
+    
+    .task-card h3 {
+        font-size: 1.1rem;
+    }
+}
+
+/* Landscape mobile improvements */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    body {
+        padding-top: 60px;
+    }
+    
+    .navbar {
+        padding: 0.8rem 4%;
+    }
+    
+    .glass-card {
+        padding: 1.5rem;
+        margin: 0 0.5rem;
+    }
+}
+
+/* High DPI/Retina display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .glass-card {
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+    }
+    
+    .navbar {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+}
+
+/* Print styles */
+@media print {
+    .navbar, .hamburger {
+        display: none !important;
+    }
+    
+    body {
+        padding-top: 0;
+        background: white !important;
+    }
+    
+    .glass-card, .task-card, .routine-item {
+        background: white !important;
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+    }
+    
+    a {
+        color: black !important;
+        text-decoration: underline !important;
     }
 }

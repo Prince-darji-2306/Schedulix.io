@@ -3,13 +3,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token');
 
     if (!token) {
-        window.location.href = '/index.html';
+        window.location.href = '/login';
         return;
     }
 
     const fetchNotifications = async () => {
         try {
-            const response = await fetch(`${CONFIG.BACKEND_API_URL}/api/notifications`, {
+            const response = await fetch('/api/notifications', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const data = await response.json();
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     window.markRead = async (id) => {
         try {
-            const response = await fetch(`${CONFIG.BACKEND_API_URL}/api/notifications/${id}/read`, {
+            const response = await fetch(`/api/notifications/${id}/read`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` }
             });

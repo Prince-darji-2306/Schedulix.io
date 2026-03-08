@@ -9,7 +9,7 @@ async function handleAuth(event, type) {
     submitBtn.disabled = true;
 
     try {
-        const response = await fetch(`${CONFIG.BACKEND_API_URL}/api/${type}`, {
+        const response = await fetch(`/api/${type}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -22,7 +22,7 @@ async function handleAuth(event, type) {
                 localStorage.setItem('token', result.access_token);
             }
             alert(`${type === 'login' ? 'Welcome back!' : 'Registration successful!'}`);
-            window.location.href = `${type === 'login' ? '/dashboard.html' : '/index.html'}`;
+            window.location.href = `${type === 'login' ? '/dashboard' : '/login'}`;
 
         } else {
             alert(`Error: ${result.detail || 'Something went wrong'}`);

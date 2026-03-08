@@ -1,8 +1,28 @@
 {
     "rewrites": [
         {
+            "source": "/api/(.*)",
+            "destination": "https://schedulix-io.onrender.com/api/$1"
+        },
+        {
+            "source": "/docs",
+            "destination": "https://schedulix-io.onrender.com/docs"
+        },
+        {
+            "source": "/openapi.json",
+            "destination": "https://schedulix-io.onrender.com/openapi.json"
+        },
+        {
+            "source": "/health",
+            "destination": "https://schedulix-io.onrender.com/health"
+        },
+        {
+            "source": "/health/docs",
+            "destination": "https://schedulix-io.onrender.com/health/docs"
+        },
+        {
             "source": "/login",
-            "destination": "/index.html"
+            "destination": "/login.html"
         },
         {
             "source": "/register",

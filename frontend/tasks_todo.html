@@ -15,38 +15,43 @@
 <body style="display: block;">
     <nav class="navbar">
         <div class="nav-logo">Schedulix.io</div>
-        <div class="nav-links">
-            <a href="/dashboard.html">Dashboard</a>
-            <a href="/tasks_todo.html">Tasks</a>
-            <a href="/routine.html">Daily Routine</a>
-            <a href="/notifications.html">Notifications</a>
-            <a href="/index.html">Logout</a>
+        <button class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="nav-links" id="navLinks">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/tasks">Tasks</a>
+            <a href="/routine">Daily Routine</a>
+            <a href="/notifications">Notifications</a>
+            <a href="/login">Logout</a>
         </div>
     </nav>
 
     <div class="dashboard-container">
         <div class="overview">
             <div>
-                <h1>Your Tasks</h1>
-                <p class="subtitle">Manage your work and generate AI-powered plans.</p>
+                <h1>Active Tasks</h1>
             </div>
-            <a href="/add_task.html" class="status-badge status-todo"
-                style="text-decoration: none; padding: 0.8rem 1.5rem;">Add New Task</a>
+            <a href="/add-task" class="status-badge status-todo" id='addTask'>+ Add New Task</a>
         </div>
 
-        <div class="table-container">
+        <div class="task-table-container">
             <table>
                 <thead>
                     <tr>
-                        <th>Task Title</th>
-                        <th>Description</th>
+                        <th>Title</th>
+                        <th>Task Description</th>
                         <th>Deadline</th>
                         <th>Status</th>
-                        <th>Action</th>
+                        <th>Plan</th>
                     </tr>
                 </thead>
                 <tbody id="tasksTableBody">
-                    <!-- Tasks will be loaded here -->
+                    <tr>
+                        <td colspan="4" class="tempbody">Loading tasks...</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -55,22 +60,18 @@
     <!-- Plan Modal -->
     <div id="planModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modalTitle">Project Plan</h2>
-                <span class="close" onclick="closeModal()">&times;</span>
+            <span class="close-btn" onclick="window.closeModal()">&times;</span>
+            <h2 id="modalTitle">Task Plan</h2>
+            <div id="planBody" class="plan-body">
+                <!-- AI Plan will be injected here -->
             </div>
-            <div id="planBody" class="modal-body">
-                <!-- AI Plan will be loaded here -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="approveBtn" onclick="approveCurrentPlan()" class="status-badge status-todo"
-                    style="border:none; cursor:pointer;">Approve Plan</button>
-                <button type="button" onclick="closeModal()">Close</button>
+            <div class="plan-footer">
+                <button id="approveBtn" class="approve-btn" onclick="window.approveCurrentPlan()">Approve Plan</button>
             </div>
         </div>
     </div>
 
-    <script src="/static/js/config.js"></script>
+    <script src="/static/js/nav.js"></script>
     <script src="/static/js/tasks.js"></script>
 </body>
 
