@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 import uvicorn
 from dotenv import load_dotenv
-from api import auth, tasks, pages, notifications
+from api import auth, tasks, notifications
 
 load_dotenv()
 
