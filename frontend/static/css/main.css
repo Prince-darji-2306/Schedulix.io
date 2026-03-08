@@ -179,7 +179,7 @@ button {
     background: rgba(240, 240, 219, 0.8);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    padding: 1.2rem 5%;
+    padding: 25px 35px 0px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -795,7 +795,7 @@ button {
 
 /* Navigation responsive styles */
 .navbar {
-    padding: 1rem 4%; /* Reduced padding */
+    padding: 25px 35px 0px; /* Reduced padding */
     position: fixed;
     top: 0;
     left: 0;
