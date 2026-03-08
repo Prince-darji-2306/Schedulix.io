@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
+# from fastapi.staticfiles import StaticFiles
 import uvicorn
 from dotenv import load_dotenv
 from api import auth, tasks, notifications
@@ -7,7 +7,7 @@ from api import auth, tasks, notifications
 load_dotenv()
 
 app = FastAPI(title="Schedulix.io")
-from fastapi.staticfiles import StaticFiles
+# from fastapi.staticfiles import StaticFiles
 
 # class NoCacheStaticFiles(StaticFiles):
 #     async def get_response(self, path, scope):
@@ -18,7 +18,7 @@ from fastapi.staticfiles import StaticFiles
 # app.mount("/static", NoCacheStaticFiles(directory="static"), name="static")
 
 # Mount Static Files
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Include Routers
 # app.include_router(pages.router)
