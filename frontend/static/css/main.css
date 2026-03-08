@@ -758,6 +758,7 @@ tempbody {
    ======================================== */
 
 /* Base styles (Mobile: 320px - 768px) */
+@media screen and (max-width: 768px) {
 body {
     padding-top: 70px; /* Reduced for mobile */
     font-size: 16px; /* Better mobile readability */
@@ -987,6 +988,7 @@ th, td {
 .footer-link {
     margin-top: 1.5rem;
     font-size: 0.9rem;
+}
 }
 
 /* ========================================

@@ -12,7 +12,10 @@ async function fetchRoutine() {
     }
 
     try {
-        const response = await fetch('/api/routine', {
+        const now = new Date();
+        const localDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+
+        const response = await fetch(`/api/routine?date=${localDate}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await response.json();
