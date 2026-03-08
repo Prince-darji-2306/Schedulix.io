@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Task | Schedulix.io</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-logo">Schedulix.io</div>
+        <button class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="nav-links" id="navLinks">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/tasks">Tasks</a>
+            <a href="/routine">Daily Routine</a>
+            <a href="/notifications">Notifications</a>
+            <a href="/login">Logout</a>
+        </div>
+    </nav>
+
+    <div id="spinner">
+        <div class="loader"></div>
+        <p>Generating AI Plan...</p>
+    </div>
+
+    <div class="glass-card">
+        <h1>Add New Task</h1>
+
+        <form id="taskForm">
+            <div class="form-group">
+                <label for="title">Task Title</label>
+                <input type="text" id="title" name="title" placeholder="e.g. Route Optimization" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input type="text" id="description" name="description" placeholder="Short detail about the task">
+            </div>
+            <div class="form-group" id="timegroup">
+                <div style="flex: 1;">
+                    <label for="deadline_date">Deadline Date</label>
+                    <input type="date" id="deadline_date" name="deadline_date" required>
+                </div>
+                <div style="flex: 1;">
+                    <label for="time">Deadline Time (Hourly)</label>
+                    <input type="time" id="time" name="time" required onchange="roundHour(this)">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="status">Initial Status</label>
+                <select id="status" name="status">
+                    <option value="pending">Pending</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                </select>
+            </div>
+            <button type="submit">Create Task</button>
+        </form>
+    </div>
+
+    <script src="/static/js/nav.js"></script>
+    <script src="/static/js/tasks.js"></script>
+</body>
+
+</html>

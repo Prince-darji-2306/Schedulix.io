@@ -1,46 +1,31 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 import uvicorn
-import os
 from dotenv import load_dotenv
-from api import auth, tasks, notifications
+from api import auth, tasks, pages, notifications
 
 load_dotenv()
 
-app = FastAPI(
-    title="Schedulix.io API",
-    docs_url="/docs",
-    openapi_url="/openapi.json"
-)
+app = FastAPI(title="Schedulix.io")
+from fastapi.staticfiles import StaticFiles
 
-@app.get("/health")
-async def health_check():
-    return {"status": "success"}
+# class NoCacheStaticFiles(StaticFiles):
+#     async def get_response(self, path, scope):
+#         response = await super().get_response(path, scope)
+#         response.headers["Cache-Control"] = "no-store"
+#         return response
 
+# app.mount("/static", NoCacheStaticFiles(directory="static"), name="static")
 
-@app.get("/health/docs")
-async def health_docs_check():
-    return {
-        "status": "success",
-        "docs_available": True,
-        "docs_url": "/docs"
-    }
+# Mount Static Files
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# Configure CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"], # In production, replace with your Vercel URL
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# Include Routers (API Only)
+# Include Routers
+app.include_router(pages.router)
 app.include_router(auth.router)
 app.include_router(tasks.router)
 app.include_router(notifications.router)
 
 
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", 8000))
-    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
