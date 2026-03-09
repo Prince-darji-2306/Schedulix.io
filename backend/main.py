@@ -22,6 +22,10 @@ app.include_router(auth.router)
 app.include_router(tasks.router)
 app.include_router(notifications.router)
 
+@app.get("/health")
+async def healthcheck():
+    return {"status": "success"}
+
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
