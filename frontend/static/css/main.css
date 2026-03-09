@@ -200,7 +200,7 @@ button {
     text-decoration: none;
     margin-left: 2.5rem;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 1.05rem;
     transition: color 0.3s;
 }
 
@@ -795,7 +795,7 @@ button {
 
 /* Navigation responsive styles */
 .navbar {
-    padding: 25px 35px 0px; /* Reduced padding */
+    padding: 25px 35px 0px !important;
     position: fixed;
     top: 0;
     left: 0;
@@ -1024,22 +1024,6 @@ th, td {
 
     .nav-logo {
         font-size: 1.5rem;
-    }
-
-    .nav-links {
-        display: flex !important;
-        position: static;
-        background: transparent;
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
-        padding: 0;
-        flex-direction: row;
-        gap: 2rem;
-        transform: none;
-        opacity: 1;
-        visibility: visible;
-        box-shadow: none;
-        border-bottom: none;
     }
 
     .hamburger {
