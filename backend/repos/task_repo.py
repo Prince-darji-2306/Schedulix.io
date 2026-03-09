@@ -111,20 +111,21 @@ def update_subtask_status(subtask_id: int, is_completed: bool):
         cursor.close()
         conn.close()
 
-def get_hierarchical_routine(user_id: int, today_str: str):
+def get_hierarchical_routine(user_id: int):
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
-        # Fetch tasks that are not completed and have a deadline today
+        # Fetch top 3 approved tasks that are not completed and have deadline today, ordered by deadline_date
         query_tasks = """
             SELECT id, title, description, status
             FROM tasks
             WHERE user_id = %s 
+            AND plan_approved = true
             AND status != 'completed'
-            ORDER BY deadline_date ASC
+            ORDER BY deadline_date ASC, time ASC
             LIMIT 3
         """
-        cursor.execute(query_tasks, (user_id, today_str))
+        cursor.execute(query_tasks, (user_id,))
         tasks = cursor.fetchall()
         
         for task in tasks:
@@ -138,6 +139,9 @@ def get_hierarchical_routine(user_id: int, today_str: str):
             task['subtasks'] = subtasks
             
         return tasks
+    except Exception as e:
+        print(f"Database Error in get_hierarchical_routine: {e}")
+        return []
     finally:
         cursor.close()
         conn.close()

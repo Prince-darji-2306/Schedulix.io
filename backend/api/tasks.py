@@ -101,10 +101,9 @@ async def toggle_subtask(subtask_id: int, request: Request, payload: dict = Depe
 @router.get("/routine")
 async def get_daily_routine_data(payload: dict = Depends(get_current_user), date: str | None = None):
     user_id = payload.get("id")
-    today = date or datetime.now().strftime("%Y-%m-%d")
     
     from repos.task_repo import get_hierarchical_routine
-    tasks = get_hierarchical_routine(user_id, today)
+    tasks = get_hierarchical_routine(user_id)
     return {"routine": tasks}
 
 @router.post("/tasks")
