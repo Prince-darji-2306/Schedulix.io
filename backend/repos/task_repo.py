@@ -1,36 +1,15 @@
-from repos.database import get_db_connection
 import json
+from repos.database import get_db_connection
 from psycopg2.extras import RealDictCursor
-from datetime import datetime, date, time
 
 def get_tasks_by_user(user_id: int):
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     try:
         query = """
-        SELECT 
-            id,
-            title,
-            description,
-            ai_plan_json,
-            plan_approved,
-            deadline_date,
-            time,
-            CASE 
-                WHEN status != 'completed' AND (deadline_date + time) < NOW()
-                    THEN 'overdue'
-                ELSE status
-            END AS status
-        FROM tasks
-        WHERE user_id = %s
-        ORDER BY
-            CASE 
-                WHEN status != 'completed' AND (deadline_date + time) < NOW() THEN 1  -- Overdue
-                WHEN status = 'pending' THEN 2                          -- Pending
-                WHEN status = 'completed' THEN 3                        -- Completed
-                ELSE 4
-            END,
-            deadline_date ASC, time ASC;
+        SELECT id, title, description, ai_plan_json, plan_approved, deadline_date, 
+        time, status FROM tasks WHERE user_id = %s 
+        ORDER BY Status DESC, deadline_date ASC, time ASC;
         """
         cursor.execute(query, (user_id,))
         tasks = cursor.fetchall()
@@ -52,6 +31,7 @@ def get_tasks_by_user(user_id: int):
                     task['ai_plan_json'] = json.loads(task['ai_plan_json'])
                 except:
                     task['ai_plan_json'] = {"error": "Invalid plan format"}
+
             elif task['ai_plan_json'] is None:
                 task['ai_plan_json'] = None
             
