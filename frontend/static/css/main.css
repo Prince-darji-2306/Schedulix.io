@@ -873,7 +873,6 @@ button {
 }
 
 .nav-links {
-    display: none; /* Hidden by default on mobile */
     position: fixed;
     top: 70px;
     left: 0;
@@ -894,6 +893,7 @@ button {
     z-index: 999;
     max-height: calc(100vh - 70px);
     overflow-y: auto;
+    /* Remove display: none to allow transitions */
 }
 
 .nav-links.active {
@@ -1324,6 +1324,103 @@ button, input, .nav-links a {
     
     .routine-desc {
         font-size: 0.9rem;
+    }
+    
+    /* Enhanced mobile navigation improvements */
+    .navbar {
+        /* Ensure navbar stays fixed and visible */
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+    }
+    
+    .nav-links {
+        /* Better mobile menu positioning */
+        top: 70px;
+        left: 0;
+        right: 0;
+        /* Ensure proper layering */
+        z-index: 999;
+        /* Smooth transitions */
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .hamburger {
+        /* Better touch target for hamburger */
+        min-width: 44px;
+        min-height: 44px;
+        /* Ensure it's clickable */
+        cursor: pointer;
+        /* Better visual feedback */
+        transition: all 0.3s ease;
+    }
+    
+    .hamburger:hover {
+        background: rgba(48, 54, 79, 0.1);
+        transform: scale(1.05);
+    }
+    
+    .hamburger:active {
+        transform: scale(0.95);
+    }
+    
+    /* Mobile menu links styling */
+    .nav-links a {
+        /* Better spacing for mobile links */
+        padding: 1rem 0;
+        /* Ensure full width touch targets */
+        display: block;
+        /* Better visual separation */
+        border-bottom: 1px solid rgba(48, 54, 79, 0.1);
+        /* Smooth transitions */
+        transition: all 0.3s ease;
+    }
+    
+    .nav-links a:last-child {
+        border-bottom: none;
+    }
+    
+    .nav-links a:hover {
+        background: rgba(225, 217, 188, 0.3);
+        padding-left: 1rem;
+    }
+    
+    /* Ensure mobile menu covers the full width */
+    .nav-links.active {
+        /* Ensure proper visibility */
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        /* Ensure it's on top */
+        z-index: 999;
+    }
+    
+    /* Mobile-specific touch improvements */
+    * {
+        /* Improve touch responsiveness */
+        -webkit-tap-highlight-color: transparent;
+        /* Better touch scrolling */
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Prevent zoom on form inputs */
+    input, select, textarea {
+        font-size: 16px;
+    }
+    
+    /* Better mobile spacing */
+    .dashboard-container {
+        padding: 1rem 1rem 3rem 1rem;
+    }
+    
+    .overview {
+        padding: 0 1rem;
+    }
+    
+    .task-grid {
+        padding: 0 1rem;
     }
 }
 
