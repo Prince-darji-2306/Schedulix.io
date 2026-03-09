@@ -117,9 +117,12 @@ def get_hierarchical_routine(user_id: int, today_str: str):
     try:
         # Fetch tasks that are not completed and have a deadline today
         query_tasks = """
-            SELECT id, title, description, status 
-            FROM tasks 
-            WHERE user_id = %s AND deadline_date = %s AND status != 'completed'
+            SELECT id, title, description, status
+            FROM tasks
+            WHERE user_id = %s 
+            AND status != 'completed'
+            ORDER BY deadline_date ASC
+            LIMIT 3
         """
         cursor.execute(query_tasks, (user_id, today_str))
         tasks = cursor.fetchall()

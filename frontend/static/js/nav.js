@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', function() {
         hamburger.addEventListener('click', function() {
             navLinks.classList.toggle('active');
             hamburger.classList.toggle('active');
+            
+            // Add body overlay when menu is open
+            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
         });
         
         // Close navigation when clicking on a link
@@ -15,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
             link.addEventListener('click', function() {
                 navLinks.classList.remove('active');
                 hamburger.classList.remove('active');
+                document.body.style.overflow = '';
             });
         });
         
@@ -24,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!isClickInsideNav && navLinks.classList.contains('active')) {
                 navLinks.classList.remove('active');
                 hamburger.classList.remove('active');
+                document.body.style.overflow = '';
             }
         });
         
@@ -32,6 +37,17 @@ document.addEventListener('DOMContentLoaded', function() {
             if (window.innerWidth >= 769) {
                 navLinks.classList.remove('active');
                 hamburger.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Add keyboard support for accessibility
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+                document.body.style.overflow = '';
+                hamburger.focus();
             }
         });
     }

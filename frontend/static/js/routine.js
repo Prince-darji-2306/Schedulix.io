@@ -79,10 +79,15 @@ async function toggleSubtask(subtaskId, checkbox, taskId) {
     const item = checkbox.closest('.subtask-item');
     const is_completed = checkbox.checked;
 
+    // Add smooth transition classes
     if (is_completed) {
         item.classList.add('completed');
+        // Trigger reflow to ensure animation works
+        void item.offsetWidth;
     } else {
         item.classList.remove('completed');
+        // Trigger reflow to ensure animation works
+        void item.offsetWidth;
     }
 
     try {
@@ -106,5 +111,11 @@ async function toggleSubtask(subtaskId, checkbox, taskId) {
         }
     } catch (error) {
         console.error('Toggle Error:', error);
+        // Revert the visual state if the API call fails
+        if (is_completed) {
+            item.classList.remove('completed');
+        } else {
+            item.classList.add('completed');
+        }
     }
 }
