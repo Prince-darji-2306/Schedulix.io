@@ -645,6 +645,7 @@ tempbody {
     padding: 1.2rem;
     margin-top: 1rem;
     display: flex;
+    cursor: pointer;
     align-items: flex-start;
     gap: 1.2rem;
     transition: all 0.3s ease;
