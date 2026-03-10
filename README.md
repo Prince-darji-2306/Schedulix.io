@@ -5,6 +5,7 @@
 Schedulix.io is a modern, responsive task management application that leverages AI to help users plan and organize their daily tasks efficiently. Built with a Python FastAPI backend and a clean, modern frontend, this application provides intelligent task planning and routine generation.
 
 **Live Demo**: [https://schedulix-io.vercel.app/](https://schedulix-io.vercel.app/)
+
 **Source Code**: [https://github.com/Prince-darji-2306/Schedulix.io](https://github.com/Prince-darji-2306/Schedulix.io)
 
 ## Features
