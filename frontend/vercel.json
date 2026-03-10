@@ -21,6 +21,10 @@
             "destination": "https://schedulix-io.onrender.com/health/docs"
         },
         {
+            "source": "/",
+            "destination": "/login.html"
+        },
+        {
             "source": "/login",
             "destination": "/login.html"
         },
