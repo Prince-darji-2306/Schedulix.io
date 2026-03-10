@@ -674,7 +674,21 @@ tempbody {
     background: #fff8e1; /* Cream/light yellow background */
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    border-color: #ffe0b2; /* Light border to match cream background */
+    border-color: var(--accent); /* Light border to match cream background */
+}
+
+.subtask-item.completed::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 2px dashed #ffc107; /* Dashed border around entire subtask item */
+    border-radius: 12px; /* Match the border radius of the subtask item */
+    pointer-events: none; /* Ensure the overlay doesn't interfere with clicks */
+    z-index: 1;
+    opacity: 0.8;
 }
 
 .subtask-item.completed .routine-content {
