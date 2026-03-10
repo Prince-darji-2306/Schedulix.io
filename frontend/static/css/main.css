@@ -28,9 +28,9 @@ body {
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     overflow-x: hidden;
-    padding-top: 80px;
+    padding-top: 0;
 }
 
 .glass-card {
@@ -395,7 +395,7 @@ tempbody {
     position: fixed;
     top: 5.5rem;
     right: 22%;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: 800;
     cursor: pointer;
     color: var(--primary);
@@ -632,8 +632,7 @@ tempbody {
 }
 
 .routine-parent-card.expanded .subtask-list {
-    max-height: 2000px;
-    /* Large enough to fit content */
+    max-height: 3000px;
     opacity: 1;
     padding: 0 1.5rem 1.5rem 1.5rem;
     border-top: 1px solid var(--glass-border);
@@ -668,47 +667,29 @@ tempbody {
     }
 }
 
-/* Enhanced Checked state styling with dotted line effect */
+/* Enhanced Checked state styling with cream background effect */
 .subtask-item.completed {
-    opacity: 0.7;
-    background: #f8f8f8;
+    opacity: 0.9;
+    background: #fff8e1; /* Cream/light yellow background */
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-}
-
-.subtask-item.completed::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: repeating-linear-gradient(
-        90deg,
-        var(--primary),
-        var(--primary) 10px,
-        transparent 10px,
-        transparent 20px
-    );
-    opacity: 0.6;
-    transform: translateY(-50%);
-    z-index: 1;
+    border-color: #ffe0b2; /* Light border to match cream background */
 }
 
 .subtask-item.completed .routine-content {
     position: relative;
     z-index: 2;
-    filter: grayscale(0.3);
 }
 
 .subtask-item.completed .routine-title {
-    text-decoration: line-through;
-    color: var(--text-muted);
+    /* Remove line-through decoration */
+    color: var(--text-main);
+    font-weight: 600;
 }
 
 .subtask-item.completed .routine-desc {
     color: var(--text-muted);
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 /* Enhanced checkbox animation */
@@ -815,7 +796,7 @@ tempbody {
 /* Base styles (Mobile: 320px - 768px) */
 @media screen and (max-width: 768px) {
 body {
-    padding-top: 70px; /* Reduced for mobile */
+    padding-top: 0; /* Remove padding for centered forms */
     font-size: 16px; /* Better mobile readability */
 }
 
@@ -1080,10 +1061,10 @@ th, td {
    TABLET BREAKPOINT (769px - 1024px)
    ======================================== */
 @media screen and (min-width: 769px) {
-    body {
-        padding-top: 80px;
-        font-size: 16px;
-    }
+body {
+    padding-top: 0;
+    font-size: 16px;
+}
 
     .glass-card {
         padding: 2.5rem;
@@ -1156,7 +1137,7 @@ th, td {
     }
 
     .close-btn {
-        top: 5rem;
+        top: 2.2rem;
         right: 7.5%;
     }
 
@@ -1204,10 +1185,10 @@ th, td {
    DESKTOP BREAKPOINT (1025px+)
    ======================================== */
 @media screen and (min-width: 1025px) {
-    body {
-        padding-top: 80px;
-        font-size: 16px;
-    }
+body {
+    padding-top: 0;
+    font-size: 16px;
+}
 
     .glass-card {
         padding: 3rem;
