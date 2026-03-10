@@ -31,11 +31,11 @@ async function fetchRoutine() {
                 let subtasksHtml = '';
                 task.subtasks.forEach(st => {
                     subtasksHtml += `
-                        <div class="subtask-item ${st.is_completed ? 'completed' : ''}">
+                        <div class="subtask-item ${st.is_completed ? 'completed' : ''}" onclick="toggleSubtask(${st.id}, this, ${task.id})">
                             <div class="check-container">
                                 <input type="checkbox" class="custom-checkbox" id="check-${st.id}" 
                                     ${st.is_completed ? 'checked' : ''} 
-                                    onchange="toggleSubtask(${st.id}, this, ${task.id})">
+                                    style="display: none;">
                             </div>
                             <div class="routine-content">
                                 <span class="time-badge">${(st.time_to || '00:00').substring(0, 5)}</span>
@@ -74,10 +74,14 @@ function toggleAccordion(taskId) {
     card.classList.toggle('expanded');
 }
 
-async function toggleSubtask(subtaskId, checkbox, taskId) {
+async function toggleSubtask(subtaskId, element, taskId) {
     const token = localStorage.getItem('token');
-    const item = checkbox.closest('.subtask-item');
-    const is_completed = checkbox.checked;
+    const item = element.classList.contains('subtask-item') ? element : element.closest('.subtask-item');
+    const checkbox = item.querySelector('.custom-checkbox');
+    const is_completed = !checkbox.checked;
+
+    // Update checkbox state
+    checkbox.checked = is_completed;
 
     // Add smooth transition classes
     if (is_completed) {
@@ -112,6 +116,7 @@ async function toggleSubtask(subtaskId, checkbox, taskId) {
     } catch (error) {
         console.error('Toggle Error:', error);
         // Revert the visual state if the API call fails
+        checkbox.checked = !is_completed;
         if (is_completed) {
             item.classList.remove('completed');
         } else {

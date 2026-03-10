@@ -860,6 +860,8 @@ button {
     -webkit-backdrop-filter: blur(12px);
     z-index: 1000;
     transition: all 0.3s ease;
+    height: 60px; /* Fixed height for mobile */
+    align-items: center;
 }
 
 .navbar.scrolled {
@@ -870,6 +872,7 @@ button {
 .nav-logo {
     font-size: 1.4rem; /* Smaller logo for mobile */
     transition: all 0.3s ease;
+    margin-right: auto; /* Push logo to left */
 }
 
 .nav-links {
@@ -930,6 +933,15 @@ button {
     z-index: 1001;
     border-radius: 8px;
     transition: all 0.3s ease;
+    position: absolute; /* Position absolutely */
+    right: 2rem; /* Fixed position on right */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Center vertically */
+    width: 44px; /* Fixed width for consistent touch target */
+    height: 44px; /* Fixed height for consistent touch target */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .hamburger:hover {
@@ -938,10 +950,10 @@ button {
 
 .hamburger span {
     display: block;
-    width: 28px;
+    width: 24px; /* Slightly smaller for better mobile fit */
     height: 3px;
     background: var(--primary);
-    margin: 5px 0;
+    margin: 4px 0;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 2px;
 }
@@ -1276,6 +1288,25 @@ button, input, .nav-links a {
 
 /* Enhanced mobile form styling */
 @media screen and (max-width: 768px) {
+    body {
+        padding-top: 70px; /* Reduced padding to prevent blocking content */
+    }
+    
+    .navbar {
+        height: 60px; /* Ensure consistent height */
+        padding: 0.75rem 2rem; /* Slightly reduced padding */
+    }
+    
+    .nav-logo {
+        font-size: 1.3rem; /* Slightly smaller for better spacing */
+    }
+    
+    .hamburger {
+        right: 1.5rem; /* Slightly adjusted position */
+        width: 40px; /* Consistent touch target */
+        height: 40px;
+    }
+    
     .glass-card {
         margin: 0 1rem 2rem 1rem;
         padding: 1.5rem;
@@ -1291,10 +1322,25 @@ button, input, .nav-links a {
         appearance: none;
     }
     
-    /* Better mobile button spacing */
+/* Better mobile button spacing */
     button {
         margin-bottom: 1rem;
         border-radius: 12px;
+    }
+    
+    /* Hide checkboxes in subtasks and make entire subtask clickable */
+    .subtask-item {
+        cursor: pointer; /* Make entire item clickable */
+    }
+    
+    .subtask-item .custom-checkbox {
+        display: none; /* Hide the checkbox */
+    }
+    
+    .subtask-item .check-container {
+        /* Remove checkbox container styling since checkbox is hidden */
+        padding: 0;
+        margin: 0;
     }
     
     /* Improve mobile text selection */
