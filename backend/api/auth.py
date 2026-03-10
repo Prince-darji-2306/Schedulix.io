@@ -12,7 +12,7 @@ async def register(user_data: UserRegister):
     if success:
         return {"status": "success", "message": "User registered successfully"}
     raise HTTPException(status_code=400, detail="Username or Email already exists")
-
+@router.post("/")
 @router.post("/login")
 async def login(login_data: UserLogin):
     user = get_user_by_email(login_data.email)
