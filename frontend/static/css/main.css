@@ -219,7 +219,7 @@ button {
     border: 1px solid var(--glass-border);
     border-radius: 20px;
     padding: 2rem;
-    max-width: 358px;
+    width: 358px;
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     box-shadow: var(--shadow);
 }
@@ -794,7 +794,6 @@ tempbody {
    RESPONSIVE DESIGN - MOBILE FIRST
    ======================================== */
 
-/* Base styles (Mobile: 320px - 768px) */
 @media screen and (max-width: 768px) {
 body {
     padding-top: 0; /* Remove padding for centered forms */
@@ -955,7 +954,7 @@ button {
 /* Dashboard responsive styles */
 .dashboard-container {
     width: 100%;
-    padding: 1rem 1rem 3rem 1rem;
+    padding: 0rem 1rem 3rem 1rem;
 }
 
 .overview {
@@ -970,7 +969,7 @@ button {
 }
 
 .task-card {
-    max-width: 100%;
+    width: 90%;
     padding: 1.5rem; /* Reduced padding */
     margin-bottom: 1rem;
 }
@@ -1099,7 +1098,7 @@ body {
 
     .dashboard-container {
         width: 95%;
-        padding: 1.5rem 2rem 3rem 2rem;
+        padding: 5rem 2rem 3rem 2rem;
     }
 
     .overview {
@@ -1216,7 +1215,7 @@ body {
         max-width: 1200px;
         width: 90%;
         margin: 0 auto;
-        padding: 4.5rem 0 3rem 0;
+        padding: 5rem 0 3rem 0;
     }
 
     .task-grid {
@@ -1456,6 +1455,11 @@ button, input, .nav-links a {
 @media screen and (max-width: 480px) {
     h1 {
         font-size: 1.8rem;
+    }
+
+    .task-card
+    {
+        width: 368px;
     }
     
     .nav-logo {
