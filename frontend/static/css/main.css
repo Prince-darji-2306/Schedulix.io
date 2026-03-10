@@ -671,7 +671,7 @@ tempbody {
 /* Enhanced Checked state styling with cream background effect */
 .subtask-item.completed {
     opacity: 0.9;
-    background: #fff8e1; /* Cream/light yellow background */
+    background: #726f64; /* Cream/light yellow background */
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     border-color: #ffdca7; /* Light border to match cream background */
