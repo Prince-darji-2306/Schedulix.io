@@ -670,7 +670,7 @@ tempbody {
 
 /* Enhanced Checked state styling with cream background effect */
 .subtask-item.completed {
-    opacity: 0.5;
+    opacity: 0.65;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
 }
