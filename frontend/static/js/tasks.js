@@ -4,16 +4,18 @@ function roundHour(inputElement) {
     let [hour, minute] = inputElement.value.split(":").map(Number);
 
     if (minute > 40) {
-        hour = (hour + 1) % 24;  // Handles 23 → 00
-    }
-    else if(20 < minute < 41){
-        minute = 30
-    }
-    else{
-        minute = '00'
+        hour = (hour + 1) % 24;   // Handle 23 → 00
+        minute = "00";
+    } 
+    else if (minute > 20 && minute <= 40) {
+        minute = "30";
+    } 
+    else {
+        minute = "00";
     }
 
-    inputElement.value = String(hour).padStart(2, '0') + ':' + minute;
+    inputElement.value =
+        String(hour).padStart(2, "0") + ":" + String(minute).padStart(2, "0");
 }
 
 document.addEventListener('DOMContentLoaded', () => {

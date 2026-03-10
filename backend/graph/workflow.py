@@ -10,6 +10,8 @@ def generate_plans_node(state: PlanState):
         f"Description: {state['description']}\n"
         f"Current Time: {state['current_time']}\n"
         f"Deadline: {state['deadline']}\n"
+        f"CRITICAL: Build the plan STRICTLY according to the current time ({state['current_time']}) and deadline time ({state['deadline']}).\n"
+        f"Schedule subtasks to start after the current time and finish by or before the deadline time.\n"
         f"Make sure they are truly different (e.g., one fast, one thorough, one creative).\n"
         f"They are should be listed in less than or equal to 12 points not more than that."
     )
@@ -21,10 +23,10 @@ def finalize_plan_node(state: PlanState):
     prompt = (
         f"Based on these 3 diverse ideas:\n{state['plans'][0]}\n"
         f"Create a single, optimized, and comprehensive finalized plan for the task: {state['title']}.\n"
-        f"The current time is {state['current_time']} and the deadline is {state['deadline']}.\n"
+        f"CRITICAL: Build the plan STRICTLY according to the current time ({state['current_time']}) and deadline time ({state['deadline']}).\n"
         f"Generate a list of adaptive subtasks (minimum 3, maximum 10) based on the task's complexity.\n"
         f"Each subtask must have a 'subtask' (title), 'description' (detailed steps), and 'time_to' (scheduled time in HH:MM format).\n"
-        f"CRITICAL: Schedule 'time_to' for each subtask in incremental order start after {state['current_time']} and must finish by {state['deadline']}.\n"
+        f"CRITICAL: Schedule 'time_to' for each subtask in incremental order start after {state['current_time']} and must finish by or before {state['deadline']}.\n"
         f"Return ONLY a JSON object with two keys:\n"
         f"1. 'markdown_plan': A beautiful markdown summary of the whole plan.\n"
         f"2. 'subtasks': A JSON array of the subtask objects.\n"
