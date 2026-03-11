@@ -1083,7 +1083,7 @@ body {
 }
 
     .glass-card {
-        padding: 2.5rem;
+        padding: 5rem 2.5rem 2.5rem;
         max-width: 500px;
         margin: 0 auto;
     }
@@ -1116,6 +1116,7 @@ body {
         width: 95%;
         padding: 5rem 2rem 3rem 2rem;
     }
+    
 
     .overview {
         flex-direction: row;
@@ -1207,7 +1208,7 @@ body {
 }
 
     .glass-card {
-        padding: 3rem;
+        padding: 4.5rem;
         max-width: 480px;
     }
 
