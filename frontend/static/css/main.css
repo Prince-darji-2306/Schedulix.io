@@ -819,7 +819,7 @@ body {
 .glass-card {
     padding: 2rem 1.5rem; /* Reduced padding for mobile */
     max-width: 100%;
-    margin: 0 1rem;
+    margin: 5rem 1rem;
 }
 
 h1 {
@@ -1083,7 +1083,7 @@ body {
 }
 
     .glass-card {
-        padding: 5rem 2.5rem 2.5rem;
+        padding: 2.5rem;
         max-width: 500px;
         margin: 0 auto;
     }
@@ -1208,7 +1208,7 @@ body {
 }
 
     .glass-card {
-        padding: 4.5rem;
+        padding: 3rem;
         max-width: 480px;
     }
 
@@ -1306,7 +1306,7 @@ button, input, .nav-links a {
     }
     
     .glass-card {
-        margin: 0 1rem 2rem 1rem;
+        margin: 5.5rem 2rem 1rem;
         padding: 1.5rem;
     }
     
